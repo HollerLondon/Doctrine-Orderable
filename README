@@ -16,6 +16,9 @@ Adds a column called 'ordr' to the model, and automatically handles adding and d
 Usage
 ----
 
+Add as an external in lib/doctrine_extensions
+
+
 In the schema.yml
  
 actAs:

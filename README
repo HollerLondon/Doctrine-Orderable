@@ -1,0 +1,55 @@
+Orderable
+=========
+
+@author:    Jo Carter <jocarter@holler.co.uk>
+@version:   2.0
+
+
+Introduction
+------------
+
+Behaviour to make a doctrine model orderable.
+ 
+Adds a column called 'ordr' to the model, and automatically handles adding and deleting of items within the list
+
+
+Usage
+----
+
+In the schema.yml
+ 
+actAs:
+  Orderable:
+    groupBy:      category_id       # optional parameter to order within a subset
+    
+    
+    
+In the code
+
+ To reorder an item:
+ 
+  * $item->moveUp()
+  * $item->moveDown()
+  * $item->moveTop()
+  * $item->moveBottom()
+  
+ To find the maximum order:
+ 
+  * $item->getMaxOrder()
+  
+ To reset the order:
+ 
+  * $item->resetOrder()
+  
+  
+NOTE: Reset order is very useful to call if you add Orderable behaviour after there are already items in the database.
+It will add orders to the items based on their position in the DB (within the group as specified, specifically using created_at if it exists)
+It can also be used to correct ordering if items are maunually deleting from the database
+
+
+
+
+Changelog
+---------
+
+Version 2.0 - added resetOrder(), groupBy functions correctly

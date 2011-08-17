@@ -127,8 +127,13 @@ class Doctrine_Template_Orderable extends Doctrine_Template
    * @param Doctrine_Record $record
    * @return int
    */
-  public function getMaxOrder(Doctrine_Record $record) 
+  public function getMaxOrder(Doctrine_Record $record = null) 
   {
+    if (is_null($record))
+    {
+      $record = $this->getInvoker();
+    }
+    
     $className = get_class($record);
     $select = 'MAX(' . $className . '.ordr) max_version';
     $options = $this->_plugin->options;

@@ -11,22 +11,19 @@ Introduction
 
 Behaviour to make a doctrine model orderable/ sortable.
  
-Adds a column called 'position' to the model, and automatically handles adding and deleting of items within the list
+Adds a column called `position` to the model, and automatically handles adding and deleting of items within the list
 
 
 Usage
 ----
 
-Add as an external in lib/doctrine_extensions
-
+Add as an external in `lib/doctrine_extensions`
 
 In the schema.yml
  
-actAs:
-  Orderable:
-    groupBy:      columnname       # optional parameter to order within a subset
-    
-    
+    actAs:
+      Orderable:
+        groupBy:      columnname       # optional parameter to order within a subset
     
 In the code
 
@@ -45,12 +42,9 @@ In the code
  
   * $item->resetOrder()
   
-  
 NOTE: Reset order is very useful to call if you add Orderable behaviour after there are already items in the database.
 It will add orders to the items based on their position in the DB (within the group as specified, specifically using created_at if it exists)
 It can also be used to correct ordering if items are maunually deleting from the database
-
-
 
 
 Changelog

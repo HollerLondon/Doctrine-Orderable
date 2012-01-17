@@ -1,16 +1,17 @@
 Orderable
 =========
 
-@author:    Jo Carter <jocarter@holler.co.uk>
-@version:   2.0
+author:    Jo Carter <jocarter@holler.co.uk>
+
+version:   3.0
 
 
 Introduction
 ------------
 
-Behaviour to make a doctrine model orderable.
+Behaviour to make a doctrine model orderable/ sortable.
  
-Adds a column called 'ordr' to the model, and automatically handles adding and deleting of items within the list
+Adds a column called 'position' to the model, and automatically handles adding and deleting of items within the list
 
 
 Usage
@@ -23,7 +24,7 @@ In the schema.yml
  
 actAs:
   Orderable:
-    groupBy:      category_id       # optional parameter to order within a subset
+    groupBy:      columnname       # optional parameter to order within a subset
     
     
     
@@ -36,9 +37,9 @@ In the code
   * $item->moveTop()
   * $item->moveBottom()
   
- To find the maximum order:
+ To find the maximum position:
  
-  * $item->getMaxOrder()
+  * $item->getMaxPosition()
   
  To reset the order:
  
@@ -54,5 +55,7 @@ It can also be used to correct ordering if items are maunually deleting from the
 
 Changelog
 ---------
+
+Version 3.0 - renamed 'ordr' to 'position' to reflect other Sortable/ Orderable extensions (and to avoid misspelling problems)
 
 Version 2.0 - added resetOrder(), groupBy functions correctly

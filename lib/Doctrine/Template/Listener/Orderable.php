@@ -62,7 +62,8 @@ class Doctrine_Orderable_Listener extends Doctrine_Record_Listener
     {
       foreach ($options['groupBy'] as $idx => $field) 
       {
-        $q->andWhere($className.'.' . $field . ' = ?', array($object->$field));
+        if (!is_null($record->$field)) $q->andWhere($className.'.' . $field . ' = ?', array($record->$field));
+        else $q->andWhere($className.'.' . $field . ' IS NULL');
       }
     }
 
@@ -91,7 +92,8 @@ class Doctrine_Orderable_Listener extends Doctrine_Record_Listener
     {
       foreach ($options['groupBy'] as $idx => $field) 
       {
-        $q->andWhere($className.'.' . $field . ' = ?', array($record->$field));
+        if (!is_null($record->$field)) $q->andWhere($className.'.' . $field . ' = ?', array($record->$field));
+        else $q->andWhere($className.'.' . $field . ' IS NULL');
       }
     }
 

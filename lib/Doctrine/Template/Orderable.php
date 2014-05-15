@@ -149,7 +149,10 @@ class Doctrine_Template_Orderable extends Doctrine_Template
     {
       foreach ($options['groupBy'] as $idx => $field) 
       {
-        if (!is_null($record->$field)) $q->andWhere($className.'.' . $field . ' = ?', array($record->$field));
+        $value = $record->$field;
+        if ($value && is_object($value) && false !== strstr($field, 'id')) $value = $value->getPrimaryKey();
+          
+        if (!is_null($value)) $q->andWhere($className.'.' . $field . ' = ?', array($value));
         else $q->andWhere($className.'.' . $field . ' IS NULL');
       }
     }
@@ -196,7 +199,10 @@ class Doctrine_Template_Orderable extends Doctrine_Template
     {
       foreach ($options['groupBy'] as $idx => $field) 
       {
-        if (!is_null($object->$field)) $q->andWhere($className.'.' . $field . ' = ?', array($object->$field));
+        $value = $object->$field;
+        if ($value && is_object($value) && false !== strstr($field, 'id')) $value = $value->getPrimaryKey();
+          
+        if (!is_null($value)) $q->andWhere($className.'.' . $field . ' = ?', array($value));
         else $q->andWhere($className.'.' . $field . ' IS NULL');
       }
     }

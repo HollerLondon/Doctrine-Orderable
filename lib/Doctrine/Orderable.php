@@ -69,7 +69,10 @@ class Doctrine_Orderable
       {
         foreach ($options['groupBy'] as $idx => $field) 
         {
-          if (!is_null($record->$field)) $q->andWhere('t.' . $field . ' = ?', array($record->$field));
+          $value = $record->$field;
+          if ($value && is_object($value) && false !== strstr($field, 'id')) $value = $value->getPrimaryKey();
+            
+          if (!is_null($value)) $q->andWhere('t.' . $field . ' = ?', array($value));
           else $q->andWhere('t.' . $field . ' IS NULL');
         }
       }
@@ -91,7 +94,10 @@ class Doctrine_Orderable
       {
         foreach ($options['groupBy'] as $idx => $field) 
         {
-          if (!is_null($record->$field)) $q->andWhere('t.' . $field . ' = ?', array($record->$field));
+          $value = $record->$field;
+          if ($value && is_object($value) && false !== strstr($field, 'id')) $value = $value->getPrimaryKey();
+            
+          if (!is_null($value)) $q->andWhere('t.' . $field . ' = ?', array($value));
           else $q->andWhere('t.' . $field . ' IS NULL');
         }
       }

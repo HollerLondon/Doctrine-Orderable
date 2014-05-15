@@ -32,7 +32,7 @@ class Doctrine_Orderable_Listener extends Doctrine_Record_Listener
   {
     $record = $event->getInvoker();
 
-    if ( ! $record->position)
+    if (!$record->position)
     {
       $record->position = ($this->getMaxPosition($record) + 1);
     }
@@ -53,10 +53,10 @@ class Doctrine_Orderable_Listener extends Doctrine_Record_Listener
     $options    = $this->_options;
 
     $q          = $object->getTable()->createQuery()
-                            ->update($className)
-                            ->set('position', 'position - ?', '1')
-                            ->where('position > ?', $position)
-                            ->orderBy('position');
+                                     ->update($className)
+                                     ->set('position', 'position - ?', '1')
+                                     ->where('position > ?', $position)
+                                     ->orderBy('position');
 
     if (isset($options['groupBy']) && !empty($options['groupBy'])) 
     {
@@ -84,21 +84,23 @@ class Doctrine_Orderable_Listener extends Doctrine_Record_Listener
     $select     = 'MAX(' . $className . '.position) max_version';
     $options    = $this->_options;
 
-    $q          = Doctrine_Query::create()
-                        ->select($select)
-                        ->from($className);
+    $q          = Doctrine_Query::create()->select($select)
+                                          ->from($className);
 
     if (isset($options['groupBy']) && !empty($options['groupBy'])) 
     {
       foreach ($options['groupBy'] as $idx => $field) 
       {
-        if (!is_null($record->$field)) $q->andWhere($className.'.' . $field . ' = ?', array($record->$field));
+        $value = $record->$field;
+        if ($value && is_object($value) && false !== strstr($field, 'id')) $value = $value->getPrimaryKey();
+          
+        if (!is_null($value)) $q->andWhere($className.'.' . $field . ' = ?', array($value));
         else $q->andWhere($className.'.' . $field . ' IS NULL');
       }
     }
 
     $result = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
-
+    
     return isset($result[0]['max_version']) ? $result[0]['max_version'] : 0;
   }
   
